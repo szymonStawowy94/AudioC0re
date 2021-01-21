@@ -1,4 +1,4 @@
-import {Link} from "gatsby";
+import {graphql, Link, StaticQuery} from "gatsby";
 import React from "react";
 import styled from "styled-components";
 
@@ -20,12 +20,28 @@ const StyledSingleCityItem = styled.div`
 
 const Submenu = () => {
 	return (
-		<StyledSubMenu>
-			<StyledSingleCityItem as={Link} to="/location/los-angeles">Los Angeles</StyledSingleCityItem>
-			<StyledSingleCityItem as={Link} to="/location/san-francisco">San Francisco</StyledSingleCityItem>
-			<StyledSingleCityItem as={Link} to="/location/oakland">Oakland</StyledSingleCityItem>
-		</StyledSubMenu>
+		<StaticQuery query={graphql`
+			query AllCityeQuery {
+				allContentfulCity {
+						edges {
+							node {
+								name
+								 gatsbyPath(filePath: "/location/{contentfulCity.name}")
+							}
+					}
+				}
+			}
+			`}
+             render={data => {
+                const allCities = (data?.allContentfulCity?.edges) || '';
+                return(
+					<StyledSubMenu>
+						{allCities.map(({node: city}) => (
+							<StyledSingleCityItem as={Link} to={city.gatsbyPath}>{city.name}</StyledSingleCityItem>
+						))}
+					</StyledSubMenu>)}}/>
 	)
-}
+};
+
 
 export default Submenu;
