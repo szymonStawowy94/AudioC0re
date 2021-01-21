@@ -1,5 +1,6 @@
 import React from 'react';
 import {graphql} from "gatsby";
+import Layout from "../../components/layout";
 
 export const query = graphql`
     query City ($id: String = "") {
@@ -15,14 +16,14 @@ export const query = graphql`
 
 export default function City({data}) {
 	return (
-		<div>
-			<h1>Hi I am {data.contentfulCity.name}</h1>
+		<Layout isSubmenuVisible>
+			<h1>{data.contentfulCity.name}</h1>
 			<h2>
 				{data.contentfulCity.description}
 			</h2>
 			<h3>
-				{data.contentfulCity.location.lat} - {data.contentfulCity.location.lon}
+				lat: {data.contentfulCity.location.lat} , lon: {data.contentfulCity.location.lon}
 			</h3>
-		</div>
+		</Layout>
 	)
 }

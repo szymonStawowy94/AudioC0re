@@ -13,7 +13,7 @@ export const query = graphql`
                         lat
                         lon
                     }
-                    gatsbyPath(filePath: "/city/{contentfulCity.name}")
+                    gatsbyPath(filePath: "/location/{contentfulCity.name}")
                 }
             }
         }
